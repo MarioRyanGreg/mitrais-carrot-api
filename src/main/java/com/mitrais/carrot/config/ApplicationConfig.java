@@ -36,7 +36,7 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("cakpep").password("{noop}dev").roles("USER")
+                .withUser("mario").password("{noop}dev").roles("USER")
                 .and()
                 .withUser("prod").password("{noop}live").roles("MANAGER");
     }
