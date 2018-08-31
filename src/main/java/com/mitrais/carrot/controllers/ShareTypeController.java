@@ -5,6 +5,8 @@ import com.mitrais.carrot.models.ShareType;
 import com.mitrais.carrot.repositories.ShareTypeRepository;
 import java.util.Optional;
 import javax.validation.Valid;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +41,8 @@ public class ShareTypeController {
     public ShareType update(@PathVariable Integer id, @Valid @RequestBody ShareType body) {
         Optional<ShareType> model = shareTypeRepository.findById(id);
         ShareType sl = model.get();
+        BeanUtils.copyProperties(body, sl);
+        sl.setId(id);
         return shareTypeRepository.save(sl);
     }
 
@@ -46,7 +50,8 @@ public class ShareTypeController {
     @ResponseBody
     public String delete(@PathVariable Integer id) {
         Optional<ShareType> sl = shareTypeRepository.findById(id);
-        shareTypeRepository.delete(sl.get());
+        sl.get().setIsDeteled(1);
+        shareTypeRepository.save(sl.get());
         return "";
     }
 }

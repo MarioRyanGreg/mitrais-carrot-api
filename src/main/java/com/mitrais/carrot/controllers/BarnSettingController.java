@@ -5,6 +5,8 @@ import com.mitrais.carrot.models.BarnSetting;
 import com.mitrais.carrot.repositories.BarnSettingRepository;
 import java.util.Optional;
 import javax.validation.Valid;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +41,8 @@ public class BarnSettingController {
     public BarnSetting update(@PathVariable Integer id, @Valid @RequestBody BarnSetting body) {
         Optional<BarnSetting> model = barnSettingRepository.findById(id);
         BarnSetting sl = model.get();
+        BeanUtils.copyProperties(body, sl);
+        sl.setId(id);
         return barnSettingRepository.save(sl);
     }
 
@@ -46,7 +50,8 @@ public class BarnSettingController {
     @ResponseBody
     public String delete(@PathVariable Integer id) {
         Optional<BarnSetting> sl = barnSettingRepository.findById(id);
-        barnSettingRepository.delete(sl.get());
+        sl.get().setIsDeteled(1);
+        barnSettingRepository.save(sl.get());
         return "";
     }
 }

@@ -1,17 +1,14 @@
 package com.mitrais.carrot.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "barn")
-@JsonIgnoreProperties(value = { "id", "createdTime" }, allowGetters = true)
-public class Barn implements Serializable {
-
-	
+@Table(name = "barn", uniqueConstraints = { @UniqueConstraint(columnNames = { "role_name" }) })
+@JsonIgnoreProperties(value = { "createdTime", "lastModifiedTime" }, allowGetters = true)
+public class Barn extends ModelAudit {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -42,23 +39,6 @@ public class Barn implements Serializable {
 
 	@Column(name = "is_released")
 	private Integer isReleased;
-
-	@Column(name = "is_deleted")
-	private Integer isDeteled;
-
-	@Column(name = "created_time")
-	@Temporal(javax.persistence.TemporalType.DATE)
-	private Date createdTime;
-
-	@Column(name = "created_by")
-	private Integer createdBy;
-
-	@Column(name = "last_modified_time")
-	@Temporal(javax.persistence.TemporalType.DATE)
-	private Date lastModifiedTime;
-
-	@Column(name = "last_modified_by")
-	private Integer lastModifiedBy;
 
 	public Integer getId() {
 		return id;
@@ -130,45 +110,5 @@ public class Barn implements Serializable {
 
 	public void setIsReleased(Integer isReleased) {
 		this.isReleased = isReleased;
-	}
-
-	public Integer getIsDeteled() {
-		return isDeteled;
-	}
-
-	public void setIsDeteled(Integer isDeteled) {
-		this.isDeteled = isDeteled;
-	}
-
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
-	public Integer getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(Integer createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Date getLastModifiedTime() {
-		return lastModifiedTime;
-	}
-
-	public void setLastModifiedTime(Date lastModifiedTime) {
-		this.lastModifiedTime = lastModifiedTime;
-	}
-
-	public Integer getLastModifiedBy() {
-		return lastModifiedBy;
-	}
-
-	public void setLastModifiedBy(Integer lastModifiedBy) {
-		this.lastModifiedBy = lastModifiedBy;
 	}
 }

@@ -1,148 +1,89 @@
 package com.mitrais.carrot.models;
 
-import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
 
 @SuppressWarnings("deprecation")
 @Entity
-@Table(name = "user")
-public class User implements Serializable {
-
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_name" }),
+		@UniqueConstraint(columnNames = { "email" }) })
+public class User extends ModelAudit {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    @Column(name = "user_name")
-    @Length(min = 5, message = "*Length min 5")
-    private String userName;
+	@Column(name = "user_name")
+	@Length(min = 5, message = "*Length min 5")
+	private String userName;
 
-    @Column(name = "email")
-    @Email(message = "*Please provide a valid Email")
-    @NotEmpty(message = "*Please provide an email")
-    private String email;
+	@Column(name = "email")
+	@Email(message = "*Please provide a valid Email")
+	@NotBlank(message = "*Please provide an email")
+	private String email;
 
-    @Column(name = "password")
-    @Length(min = 5, message = "*Your password must have at least 5 characters")
-    @NotEmpty(message = "*Please provide your password")
-    @Transient
-    private String password;
+	@Column(name = "password")
+	@Length(min = 5, message = "*Your password must have at least 5 characters")
+	@NotBlank(message = "*Please provide your password")
+	@Transient
+	private String password;
 
-    @Column(name = "active")
-    private Integer active;
+	@Column(name = "active")
+	private Integer active;
 
-    @OneToOne
-    private Role role;
+	@OneToOne
+	private Role role;
 
-    @Column(name = "is_deleted")
-    private Integer isDeteled;
+	public Integer getId() {
+		return id;
+	}
 
-    @Column(name = "created_time")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date createdTime;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    @Column(name = "created_by")
-    private Integer createdBy;
+	public String getUserName() {
+		return userName;
+	}
 
-    @Column(name = "last_modified_time")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date lastModifiedTime;
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    @Column(name = "last_modified_by")
-    private Integer lastModifiedBy;
+	public String getEmail() {
+		return email;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public Integer getActive() {
+		return active;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setActive(Integer active) {
+		this.active = active;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public Role getRole() {
+		return role;
+	}
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getActive() {
-        return active;
-    }
-
-    public void setActive(Integer active) {
-        this.active = active;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Integer getIsDeteled() {
-        return isDeteled;
-    }
-
-    public void setIsDeteled(Integer isDeteled) {
-        this.isDeteled = isDeteled;
-    }
-
-    public Date getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getLastModifiedTime() {
-        return lastModifiedTime;
-    }
-
-    public void setLastModifiedTime(Date lastModifiedTime) {
-        this.lastModifiedTime = lastModifiedTime;
-    }
-
-    public Integer getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(Integer lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
+	public void setRole(Role role) {
+		this.role = role;
+	}
 }

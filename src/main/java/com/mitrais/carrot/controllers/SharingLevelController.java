@@ -4,6 +4,9 @@ import com.mitrais.carrot.config.Config;
 import com.mitrais.carrot.models.SharingLevel;
 import com.mitrais.carrot.repositories.SharingLevelRepository;
 import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
@@ -39,7 +43,8 @@ public class SharingLevelController {
     }
 
     @PutMapping("/sharinglevels/{id}")
-    public SharingLevel update(@PathVariable Integer id, @RequestBody SharingLevel body) {
+    @ResponseBody
+    public SharingLevel update(@PathVariable Integer id,@Valid @RequestBody SharingLevel body) {
         Optional<SharingLevel> shareLevel = sharingLevelRepository.findById(id);
         SharingLevel sl = shareLevel.get();        
         if (body.getGrade() != null) {
@@ -52,9 +57,11 @@ public class SharingLevelController {
     }
 
     @DeleteMapping("/sharinglevels/{id}")
-    public String delete(@PathVariable Integer id) {
+    @ResponseBody
+    public String delete(@PathVariable Integer id) {        
         Optional<SharingLevel> sl = sharingLevelRepository.findById(id);
-        sharingLevelRepository.delete(sl.get());
+        sl.get().setIsDeteled(1);
+        sharingLevelRepository.save(sl.get());
         return "";
     }
 }

@@ -5,6 +5,8 @@ import com.mitrais.carrot.models.BazaarItem;
 import com.mitrais.carrot.repositories.BazaarItemRepository;
 import java.util.Optional;
 import javax.validation.Valid;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +41,8 @@ public class BazaarItemController {
     public BazaarItem update(@PathVariable Integer id, @Valid @RequestBody BazaarItem body) {
         Optional<BazaarItem> model = bazaarItemsRepository.findById(id);
         BazaarItem sl = model.get();
+        BeanUtils.copyProperties(body, sl);
+        sl.setId(id);
         return bazaarItemsRepository.save(sl);
     }
 
@@ -46,7 +50,8 @@ public class BazaarItemController {
     @ResponseBody
     public String delete(@PathVariable Integer id) {
         Optional<BazaarItem> sl = bazaarItemsRepository.findById(id);
-        bazaarItemsRepository.delete(sl.get());
+        sl.get().setIsDeteled(1);
+        bazaarItemsRepository.save(sl.get());
         return "";
     }
 }

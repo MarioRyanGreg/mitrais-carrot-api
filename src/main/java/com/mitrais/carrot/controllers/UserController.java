@@ -3,8 +3,11 @@ package com.mitrais.carrot.controllers;
 import com.mitrais.carrot.config.Config;
 import com.mitrais.carrot.models.User;
 import com.mitrais.carrot.repositories.UserRepository;
-import java.util.Date;
 import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
@@ -40,18 +44,21 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public User update(@PathVariable Integer id, @RequestBody User body) {
+    @ResponseBody
+    public User update(@PathVariable Integer id,@Valid @RequestBody User body) {
         Optional<User> user = userRepository.findById(id);
         User u = user.get();
-        body.setId(u.getId());
-        body.setLastModifiedTime(new Date());
+        BeanUtils.copyProperties(body, u);
+        u.setId(id);
         return userRepository.save(body);
     }
 
     @DeleteMapping("/users/{id}")
+    @ResponseBody
     public String delete(@PathVariable Integer id) {
         Optional<User> sl = userRepository.findById(id);
-        userRepository.delete(sl.get());
+        sl.get().setIsDeteled(1);
+        userRepository.save(sl.get());
         return "";
     }
 }

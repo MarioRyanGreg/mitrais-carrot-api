@@ -38,15 +38,18 @@ public class RoleController {
     @ResponseBody
     public Role update(@PathVariable Integer id, @Valid @RequestBody Role body) {
         Optional<Role> model = roleRepository.findById(id);
-        Role sl = model.get();
-        return roleRepository.save(sl);
+        Role role = model.get();
+        role.setRoleName(body.getRoleName());
+        role.setIsDeteled(body.getIsDeteled());
+        return roleRepository.save(role);
     }
 
     @DeleteMapping("/roles/{id}")
     @ResponseBody
     public String delete(@PathVariable Integer id) {
         Optional<Role> sl = roleRepository.findById(id);
-        roleRepository.delete(sl.get());
+        sl.get().setIsDeteled(1);
+        roleRepository.save(sl.get());
         return "";
     }
 }

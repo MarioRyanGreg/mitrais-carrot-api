@@ -1,21 +1,21 @@
 package com.mitrais.carrot.models;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "barn_setting")
-public class BarnSetting implements Serializable {
-
+@Table(name = "barn_setting", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {
+        "role_name"
+    })
+})
+@JsonIgnoreProperties(
+        value = {"createdTime", "lastModifiedTime"},
+        allowGetters = true
+)
+public class BarnSetting extends ModelAudit {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -42,23 +42,6 @@ public class BarnSetting implements Serializable {
 
     @OneToOne
     private Rewards rewards;
-
-    @Column(name = "is_deleted")
-    private Integer isDeteled;
-
-    @Column(name = "created_time")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date createdTime;
-
-    @Column(name = "created_by")
-    private Integer createdBy;
-
-    @Column(name = "last_modified_time")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date lastModifiedTime;
-
-    @Column(name = "last_modified_by")
-    private Integer lastModifiedBy;
 
     public Integer getId() {
         return id;
@@ -122,45 +105,5 @@ public class BarnSetting implements Serializable {
 
     public void setRewards(Rewards rewards) {
         this.rewards = rewards;
-    }
-
-    public Integer getIsDeteled() {
-        return isDeteled;
-    }
-
-    public void setIsDeteled(Integer isDeteled) {
-        this.isDeteled = isDeteled;
-    }
-
-    public Date getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getLastModifiedTime() {
-        return lastModifiedTime;
-    }
-
-    public void setLastModifiedTime(Date lastModifiedTime) {
-        this.lastModifiedTime = lastModifiedTime;
-    }
-
-    public Integer getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(Integer lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
     }
 }

@@ -9,5 +9,5 @@ public class Config {
     /**
      * base api url
      */
-    public static final String BASE_URI_API = "/api";
+    public static final String BASE_URI_API = "/api/v1";
 }

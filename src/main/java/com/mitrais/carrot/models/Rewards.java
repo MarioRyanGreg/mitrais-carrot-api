@@ -1,6 +1,6 @@
 package com.mitrais.carrot.models;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,195 +8,134 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "rewards")
-public class Rewards implements Serializable {
-
+@JsonIgnoreProperties(value = { "createdTime", "lastModifiedTime" }, allowGetters = true)
+public class Rewards extends ModelAudit {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    @NotNull
-    @Size(max = 50)
-    @Column(name = "type_name")
-    private String typeName;
+	@NotNull
+	@Size(max = 50)
+	@Column(name = "type_name")
+	private String typeName;
 
-    @NotNull
-    @Column(name = "sharing_level")
-    private Integer sharingLevel;
+	@NotNull
+	@Column(name = "sharing_level")
+	private Integer sharingLevel;
 
-    @Column(name = "carrot")
-    private Integer carrot;
+	@Column(name = "carrot")
+	private Integer carrot;
 
-    /**
-     * open,close
-     */
-    @Size(max = 10)
-    @Column(name = "status", columnDefinition = "enum('OPEN','CLOSE')")
-    private String status;
+	/**
+	 * open,close
+	 */
+	@Size(max = 10)
+	@Column(name = "status", columnDefinition = "enum('OPEN','CLOSE')")
+	private String status;
 
-    @Column(name = "reward_type_name")
-    private String rewardTypeName;
+	@Column(name = "reward_type_name")
+	private String rewardTypeName;
 
-    @Size(max = 25)
-    private String type;
+	@Size(max = 25)
+	private String type;
 
-    @Size(max = 25)
-    private String event;
+	@Size(max = 25)
+	private String event;
 
-    @Size(max = 25)
-    @Column(name = "status_close_reason")
-    private String statusCloseReason;
+	@Size(max = 25)
+	@Column(name = "status_close_reason")
+	private String statusCloseReason;
 
-    @Column(name = "max_claim")
-    private Integer maxClaim;
+	@Column(name = "max_claim")
+	private Integer maxClaim;
 
-    @Column(name = "expired_date")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date expiredDate;
+	@Column(name = "expired_date")
+	@Temporal(javax.persistence.TemporalType.DATE)
+	private Date expiredDate;
 
-    @Column(name = "is_deleted")
-    private Integer isDeteled;
+	public Integer getId() {
+		return id;
+	}
 
-    @Column(name = "created_time")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date createdTime;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    @Column(name = "created_by")
-    private Integer createdBy;
+	public String getTypeName() {
+		return typeName;
+	}
 
-    @Column(name = "last_modified_time")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date lastModifiedTime;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
 
-    @Column(name = "last_modified_by")
-    private Integer lastModifiedBy;
+	public Integer getSharingLevel() {
+		return sharingLevel;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setSharingLevel(Integer sharingLevel) {
+		this.sharingLevel = sharingLevel;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getCarrot() {
+		return carrot;
+	}
 
-    public String getTypeName() {
-        return typeName;
-    }
+	public void setCarrot(Integer carrot) {
+		this.carrot = carrot;
+	}
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public Integer getSharingLevel() {
-        return sharingLevel;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public void setSharingLevel(Integer sharingLevel) {
-        this.sharingLevel = sharingLevel;
-    }
+	public String getRewardTypeName() {
+		return rewardTypeName;
+	}
 
-    public Integer getCarrot() {
-        return carrot;
-    }
+	public void setRewardTypeName(String rewardTypeName) {
+		this.rewardTypeName = rewardTypeName;
+	}
 
-    public void setCarrot(Integer carrot) {
-        this.carrot = carrot;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public String getEvent() {
+		return event;
+	}
 
-    public String getRewardTypeName() {
-        return rewardTypeName;
-    }
+	public void setEvent(String event) {
+		this.event = event;
+	}
 
-    public void setRewardTypeName(String rewardTypeName) {
-        this.rewardTypeName = rewardTypeName;
-    }
+	public String getStatusCloseReason() {
+		return statusCloseReason;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public void setStatusCloseReason(String statusCloseReason) {
+		this.statusCloseReason = statusCloseReason;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public Integer getMaxClaim() {
+		return maxClaim;
+	}
 
-    public String getEvent() {
-        return event;
-    }
+	public void setMaxClaim(Integer maxClaim) {
+		this.maxClaim = maxClaim;
+	}
 
-    public void setEvent(String event) {
-        this.event = event;
-    }
-
-    public String getStatusCloseReason() {
-        return statusCloseReason;
-    }
-
-    public void setStatusCloseReason(String statusCloseReason) {
-        this.statusCloseReason = statusCloseReason;
-    }
-
-    public Integer getMaxClaim() {
-        return maxClaim;
-    }
-
-    public void setMaxClaim(Integer maxClaim) {
-        this.maxClaim = maxClaim;
-    }
-
-    public Date getExpiredDate() {
-        return expiredDate;
-    }
-
-    public void setExpiredDate(Date expiredDate) {
-        this.expiredDate = expiredDate;
-    }
-
-    public Integer getIsDeteled() {
-        return isDeteled;
-    }
-
-    public void setIsDeteled(Integer isDeteled) {
-        this.isDeteled = isDeteled;
-    }
-
-    public Date getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getLastModifiedTime() {
-        return lastModifiedTime;
-    }
-
-    public void setLastModifiedTime(Date lastModifiedTime) {
-        this.lastModifiedTime = lastModifiedTime;
-    }
-
-    public Integer getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(Integer lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
+	public Date getExpiredDate() {
+		return expiredDate;
+	}
 }

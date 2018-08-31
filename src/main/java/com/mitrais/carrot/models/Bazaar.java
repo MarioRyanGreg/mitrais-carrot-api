@@ -1,6 +1,6 @@
 package com.mitrais.carrot.models;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,8 +8,11 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "bazaar")
-public class Bazaar implements Serializable {
-
+@JsonIgnoreProperties(
+        value = {"createdTime", "lastModifiedTime"},
+        allowGetters = true
+)
+public class Bazaar extends ModelAudit {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -34,25 +37,8 @@ public class Bazaar implements Serializable {
 
     private Integer status;
 
-    @Column(name = "is_deleted")
-    protected Integer isDeteled;
-
     @OneToOne
     private BazaarItem bazaarItem;
-
-    @Column(name = "created_time")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    protected Date createdTime;
-
-    @Column(name = "created_by")
-    protected Integer createdBy;
-
-    @Column(name = "last_modified_time")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    protected Date lastModifiedTime;
-
-    @Column(name = "last_modified_by")
-    protected Integer lastModifiedBy;
 
     public Integer getId() {
         return id;
@@ -101,45 +87,4 @@ public class Bazaar implements Serializable {
     public void setStatus(Integer status) {
         this.status = status;
     }
-
-    public Integer getIsDeteled() {
-        return isDeteled;
-    }
-
-    public void setIsDeteled(Integer isDeteled) {
-        this.isDeteled = isDeteled;
-    }
-
-    public Date getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getLastModifiedTime() {
-        return lastModifiedTime;
-    }
-
-    public void setLastModifiedTime(Date lastModifiedTime) {
-        this.lastModifiedTime = lastModifiedTime;
-    }
-
-    public Integer getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(Integer lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
 }

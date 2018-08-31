@@ -5,6 +5,8 @@ import com.mitrais.carrot.models.Rewards;
 import com.mitrais.carrot.repositories.RewardsRepository;
 import java.util.Optional;
 import javax.validation.Valid;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +41,8 @@ public class RewardsController {
     public Rewards update(@PathVariable Integer id, @Valid @RequestBody Rewards body) {
         Optional<Rewards> model = rewardsRepository.findById(id);
         Rewards sl = model.get();
+        BeanUtils.copyProperties(body, sl);
+        sl.setId(id);
         return rewardsRepository.save(sl);
     }
 
@@ -46,7 +50,8 @@ public class RewardsController {
     @ResponseBody
     public String delete(@PathVariable Integer id) {
         Optional<Rewards> sl = rewardsRepository.findById(id);
-        rewardsRepository.delete(sl.get());
+        sl.get().setIsDeteled(1);
+        rewardsRepository.save(sl.get());
         return "";
     }
 }

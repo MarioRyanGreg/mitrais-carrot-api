@@ -1,13 +1,11 @@
 package com.mitrais.carrot.models;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "transactions")
-public class Transactions implements Serializable {
-
+public class Transactions extends ModelAudit {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -36,23 +34,9 @@ public class Transactions implements Serializable {
 
     @OneToOne
     private Bazaar bazaar;
-    
+
     @OneToOne
     private Rewards rewards;
-
-    @Column(name = "created_time")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date createdTime;
-
-    @Column(name = "created_by")
-    private Integer createdBy;
-
-    @Column(name = "last_modified_time")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date lastModifiedTime;
-
-    @Column(name = "last_modified_by")
-    private Integer lastModifiedBy;
 
     public Integer getId() {
         return id;
@@ -133,37 +117,4 @@ public class Transactions implements Serializable {
     public void setRewards(Rewards rewards) {
         this.rewards = rewards;
     }
-
-    public Date getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getLastModifiedTime() {
-        return lastModifiedTime;
-    }
-
-    public void setLastModifiedTime(Date lastModifiedTime) {
-        this.lastModifiedTime = lastModifiedTime;
-    }
-
-    public Integer getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(Integer lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
 }

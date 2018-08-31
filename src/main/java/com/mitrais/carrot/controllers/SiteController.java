@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
@@ -23,6 +24,7 @@ public class SiteController {
     private UserService userService;
 
     @PostMapping("/login")
+    @ResponseBody
     public String login(@RequestBody User body) {
 
         User user = userService.findUserByEmail(body.getEmail());
@@ -37,6 +39,7 @@ public class SiteController {
     }
 
     @PostMapping("/register")
+    @ResponseBody
     public String register(@RequestBody User body, BindingResult bindingResult) {
 
         User userExists = userService.findUserByEmail(body.getEmail());
